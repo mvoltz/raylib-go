@@ -14,8 +14,8 @@ type Bunny struct {
 }
 
 func main() {
-	screenWidth := int32(1280)
-	screenHeight := int32(960)
+	screenWidth := int32(800)
+	screenHeight := int32(450)
 
 	rl.InitWindow(screenWidth, screenHeight, "raylib [core] example - Bunnymark")
 
@@ -33,8 +33,12 @@ func main() {
 			for i := 0; i < 100; i++ {
 				b := &Bunny{}
 				b.Position = rl.GetMousePosition()
-				b.Speed.X = float32(rl.GetRandomValue(250, 500)) / 60.0
-				b.Speed.Y = float32(rl.GetRandomValue(250, 500)-500) / 60.0
+				b.Speed.X = float32(rl.GetRandomValue(-250, 250)) / 60.0
+				b.Speed.Y = float32(rl.GetRandomValue(-250, 250)-500) / 60.0
+				b.Color.R = uint8(rl.GetRandomValue(50, 240))
+				b.Color.G = uint8(rl.GetRandomValue(80, 240))
+				b.Color.B = uint8(rl.GetRandomValue(100, 240))
+				b.Color.A = uint8(rl.GetRandomValue(100, 255))
 
 				bunnies = append(bunnies, b)
 				bunniesCount++
@@ -64,7 +68,7 @@ func main() {
 			// batching buffer starts being filled again; before launching the draw call,
 			// updated vertex data from internal buffer is send to GPU... it seems it generates
 			// a stall and consequently a frame drop, limiting number of bunnies drawn at 60 fps
-			rl.DrawTexture(texture, int32(b.Position.X), int32(b.Position.Y), rl.RayWhite)
+			rl.DrawTexture(texture, int32(b.Position.X), int32(b.Position.Y), b.Color)
 		}
 
 		rl.DrawRectangle(0, 0, screenWidth, 40, rl.LightGray)
